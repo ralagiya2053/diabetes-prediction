@@ -1,0 +1,14 @@
+@"
+# Runtime
+pandas
+numpy
+scikit-learn
+joblib
+fastapi
+uvicorn[standard]
+pydantic
+
+# Dev / test
+requests
+pytest
+"@ | Out-File -Encoding utf8 requirements.txt
