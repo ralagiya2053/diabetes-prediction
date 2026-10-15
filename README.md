@@ -26,6 +26,9 @@ model.pkl + scaler.pkl + encoder.pkl + feature_order.json
 - **Runtime**: AWS Lambda (container image) + Function URL
 - **Frontend**: Static HTML + vanilla JS
 
+## Frontend
+The live frontend is available at: [https://ralagiya2053.github.io/diabetes-prediction/frontend/index.html](https://ralagiya2053.github.io/diabetes-prediction/frontend/index.html)
+
 ## Project Layout
 
 \`\`\`
