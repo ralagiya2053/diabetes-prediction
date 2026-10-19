@@ -425,3 +425,67 @@ main { flex: 1 0 auto; }
   .predict-btn { width: 100%; }
   .disclaimer { padding: 0 8px; }
 }
+
+/* ============================================================
+   F2 — Policy document pages (additive only; existing rules above
+   are untouched. Scoped to new class names so the landing page
+   is visually unaffected.)
+   ============================================================ */
+
+/* Brand doubles as a Home link on the policy/doc pages */
+.brand-link { text-decoration: none; }
+
+/* Document body: left-aligned prose, fixed measure */
+.doc-page {
+  width: 820px;                 /* same measure as .disclaimer */
+  max-width: 100%;
+  text-align: left;
+}
+
+.doc-eyebrow {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+
+.doc-page h1 {
+  margin: 0 0 14px;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.doc-page h2 {
+  margin: 26px 0 10px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.doc-page p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+/* Visible placeholder-content notice (AC8) */
+.doc-page .doc-note {
+  margin: 0 0 8px;
+  padding: 14px 16px;
+  background-color: var(--color-surface-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* "Last updated" line and trailing paragraph */
+.doc-page .doc-updated {
+  margin: 24px 0 0;
+  font-size: 12px;
+}
