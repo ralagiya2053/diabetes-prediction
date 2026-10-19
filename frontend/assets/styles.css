@@ -1,0 +1,427 @@
+/* ============================================================
+   F1 — Landing page redesign (Figma Nodes 3:29–3:137)
+   Tokens below are extracted from the Figma design context.
+   ============================================================ */
+
+:root {
+  --color-page-bg: #f5f8f7;
+  --color-surface: #ffffff;
+  --color-surface-input: #fcfdfc;
+  --color-tile: #dce9ff;
+  --color-accent: #1e3a8a;
+  --color-accent-hover: #16295f;
+  --color-text: #203833;
+  --color-text-muted: #647570;
+  --color-border: #dee7e2;
+  --color-divider: #e7ede9;
+  --radius-card: 20px;
+  --radius-control: 8px;
+  --shadow-card: 0 12px 40px 0 rgba(36, 78, 62, 0.04);
+  --width-content-max: 1440px;
+  --width-card: 920px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background-color: var(--color-page-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1 0 auto; }
+
+/* ---------- Shared page shell (AC10: content cap 1440px) ---------- */
+
+.page-shell {
+  max-width: var(--width-content-max);
+  margin: 0 auto;
+  padding: 0 64px;
+  width: 100%;
+}
+
+/* ---------- Header (AC1) ---------- */
+
+.page-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  flex-shrink: 0;
+}
+
+.page-header .page-shell {
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand__mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background-color: var(--color-tile);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.brand__mark img { display: block; }
+
+.brand__name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.page-header__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---------- Hero / introduction (AC2) ---------- */
+
+.assessment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 44px 24px 36px;
+  width: 100%;
+}
+
+.intro {
+  width: var(--width-card);
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.intro__eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.intro__title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.intro__subtitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ---------- Form card (AC3) ---------- */
+
+.form-card {
+  width: var(--width-card);
+  max-width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.form-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 36px 24px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.form-card__heading h2 {
+  margin: 0 0 7px;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.form-card__heading p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  background-color: var(--color-tile);
+}
+
+.badge img { display: block; }
+
+.badge__text {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+/* ---------- Form fields (AC4, AC5) ---------- */
+
+.form-card__grid {
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.field__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.field__guide {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.field__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.field__input,
+.field__select {
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  background-color: var(--color-surface-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+.field__unit {
+  position: absolute;
+  right: 15px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.field__control--suffix .field__input { padding-right: 72px; }
+
+.field__select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 39px;
+  cursor: pointer;
+}
+
+.field__chevron {
+  position: absolute;
+  right: 15px;
+  pointer-events: none;
+}
+
+/* ---------- Card footer row (AC6) ---------- */
+
+.form-card__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 36px;
+  border-top: 1px solid var(--color-divider);
+}
+
+.form-card__action-title {
+  margin: 0 0 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.form-card__action-sub {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.predict-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 192px;
+  height: 50px;
+  background-color: var(--color-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-control);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.predict-btn img { display: block; }
+
+.predict-btn:hover { background-color: var(--color-accent-hover); }
+
+/* ---------- Result / error block (AC9: restyled, same content) ---------- */
+
+#result {
+  display: none;
+  margin: 0 36px 28px;
+  padding: 14px 16px;
+  background-color: var(--color-surface-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+#result.positive {
+  background-color: #fdf2f2;
+  border-color: #eccccc;
+  color: #8a3037;
+}
+
+#result.negative {
+  background-color: #f0f7f1;
+  border-color: #cde3cd;
+  color: #2f6b38;
+}
+
+/* ---------- Disclaimer (AC7) ---------- */
+
+.disclaimer {
+  width: 820px;
+  max-width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.disclaimer img { display: block; flex-shrink: 0; }
+
+.disclaimer p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Page footer (AC8) ---------- */
+
+.page-footer {
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.page-footer .page-shell {
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-brand {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-links a {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.footer-links a:hover { text-decoration: underline; }
+
+/* ---------- Responsive (AC1, AC4, AC8, AC10) ---------- */
+
+/* Tablet: form grid collapses to a single column */
+@media (max-width: 1023.98px) {
+  .field-pair { grid-template-columns: 1fr; }
+}
+
+/* Mobile: chrome padding drops to 24px, header label hides */
+@media (max-width: 767.98px) {
+  .page-shell { padding: 0 24px; }
+  .page-header__label { display: none; }
+  .footer-links { gap: 16px; }
+  .predict-btn { width: 100%; }
+  .disclaimer { padding: 0 8px; }
+}

@@ -12,7 +12,7 @@ with a Bedrock RAG chatbot for portfolio demo.
 ## Layout
 
 app/ FastAPI service (main.py, schema.py)
-frontend/ Static HTML UI (index.html)
+frontend/ Static HTML UI (index.html, assets/ — styles.css + SVG icons)
 tests/ Pytest suite (test_predict.py — currently empty)
 train/ diabetes.csv (training dataset only)
 specs/ SDD specs (created per feature)
@@ -48,7 +48,7 @@ Specs: `specs/<NNN>-<slug>/{spec.md, plan.md, tasks.md}`
 ## Roadmap
 | ID | Feature | Branch |
 |----|---------|--------|
-| F1 | Website UI: nav + footer links | `feat/01-website-ui-links` |
+| F1 | Website UI: full page redesign per Figma | `feat/01-website-ui-links` |
 | F2 | Policy documents | `feat/02-policy-documents` |
 | F3 | RAG backend (Lambda + Bedrock + S3 Vectors) | `feat/03-rag-backend` |
 | F4 | Chatbot widget | `feat/04-chatbot-widget` |
