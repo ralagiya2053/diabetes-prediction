@@ -40,17 +40,31 @@ origin restriction only matters for the deployed URL.)
    distance metric **COSINE** (Titan V2 is normalized).
 3. **ECR:** create repo `rag-backend` (us-east-1), then:
        docker build -t rag-backend rag-backend/
-       docker tag rag-backend:latest <ecr-url>/rag-backend:latest
-       docker push <ecr-url>/rag-backend:latest
+       docker tag rag-backend:latest 974443623644.dkr.ecr.us-east-1.amazonaws.com/rag-backend:latest
+       docker push 974443623644.dkr.ecr.us-east-1.amazonaws.com/rag-backend:latest
+   (Repo created 2026-10-19: tag-pushed `latest` = sha256:53c7e94a…f87cf6817fa639.)
 4. **Lambda:** create function from container image; Lambda Web Adapter is
    baked into the image (`AWS_LWA_PORT=8080`), timeout **30s** (app targets
-   ≤10s), memory 512 MB.
-5. **IAM execution role:** `bedrock:InvokeModel`, `bedrock:InvokeModelWithResponseStream`,
-   `s3vectors:QueryVectors`, `s3vectors:PutVectors` scoped to the specific
-   bucket/index + bedrock model IDs — see the policy JSON below.
+   ≤10s), memory 512 MB. CLI gotcha: build/push with
+   `docker build --provenance=false --sbom=false` or Lambda rejects the OCI
+   manifest list ("image manifest ... not supported"). Deployed (2026-10-19):
+   function `rag-backend` from ECR digest `sha256:38e3b30b…0afae315`.
+5. **IAM execution role:** `rag-backend-lambda-role` — inline policy
+   `rag-backend-inline` covering CloudWatch logs, ECR pull, `bedrock:InvokeModel`
+   / +ResponseStream scoped to the two model IDs, and
+   `s3vectors:QueryVectors` / `s3vectors:PutVectors` on
+   `arn:aws:s3vectors:us-east-1:974443623644:bucket/diabetes-rag-vectors`.
+   (Account-managed policies like `AWSLambdaBasicExecutionRole` could not be
+   referenced in this account at deploy time, so everything is inline.)
 6. **Function URL:** enable with auth type `NONE`; leave the URL's CORS
    setting **DISABLED** — CORS is enforced by the app's middleware and both
    layers enabled would emit duplicate headers and break preflight.
+   CLI gotcha: `create-function-url-config` does not add the public invoke
+   permission the console auto-adds — run:
+       aws lambda add-permission --function-name rag-backend \
+         --statement-id FunctionURLAllowPublicUse --action lambda:InvokeFunctionUrl \
+         --principal "*" --function-url-auth-type NONE
+   Live URL: `https://kvjinvbq37vl2k5gh45xcaj2e40hpldn.lambda-url.us-east-1.on.aws/`
 7. **Set env vars** on the Lambda for `VECTOR_BUCKET_NAME`, `VECTOR_INDEX_NAME`.
 
 ## Ingestion (idempotent — AC11)

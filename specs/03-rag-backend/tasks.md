@@ -51,6 +51,15 @@ Tasks map 1:1 to plan Section 5 steps. Mark `- [x]` when done and validated.
       Adapter layer, IAM role with bedrock invoke + s3vectors permissions,
       Function URL (auth NONE, CORS DISABLED); confirm Bedrock model access
       first for both models. — plan Step 8 (AC6, AC7, AC12)
+      Progress (2026-10-19): ECR repo created + image pushed (digest
+      sha256:38e3b30b…); Lambda `rag-backend` Active (512MB/30s, env vars set);
+      role `rag-backend-lambda-role` inline policy (logs, ECR pull, bedrock
+      invoke, s3vectors); Function URL auth NONE + CORS disabled + public
+      invoke permission added. BLOCKED: account under AWS verification —
+      Bedrock InvokeModel and anonymous Function-URL access both denied;
+      /health returns 403 until verification clears. Remaining: re-run ingest
+      (T5 live half), model-access enablement if still needed, then complete
+      this task.
 - [ ] T11. Live verification with curl against the Function URL: `/health`
       200; covered question → answer+sources; uncovered question → explicit
       insufficient-context; malformed → 4xx; preflight from frontend origin;
