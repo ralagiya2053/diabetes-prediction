@@ -10,16 +10,16 @@ Tasks map 1:1 to plan Section 5 steps. Mark `- [x]` when done and validated.
 
 ## Build
 
-- [ ] T1. Create `frontend/privacy.html`: copy the landing-page shell verbatim
+- [x] T1. Create `frontend/privacy.html`: copy the landing-page shell verbatim
       (head with meta/fonts/`assets/styles.css`, `page-header` block, `page-footer`
       block with all three relative links); set per-page `<title>` and fill
       `<main>` with a Privacy Policy title + 3–5 heading/paragraph sections of
       clearly generic placeholder text. — plan Step 1 (AC1, AC4–AC8)
-- [ ] T2. Create `frontend/terms.html`: same shell verbatim; placeholder
+- [x] T2. Create `frontend/terms.html`: same shell verbatim; placeholder
       Terms & Conditions sections. — plan Step 2 (AC2, AC4–AC8)
-- [ ] T3. Create `frontend/about.html`: same shell verbatim; short placeholder
+- [x] T3. Create `frontend/about.html`: same shell verbatim; short placeholder
       About Us description. — plan Step 3 (AC3, AC4–AC8)
-- [ ] T4. Review each page's `<main>` against the shared stylesheet in a browser;
+- [x] T4. Review each page's `<main>` against the shared stylesheet in a browser;
       only if the plain-text layout needs support, append new additive classes
       at the bottom of `frontend/assets/styles.css` (no existing rule edited) and
       apply them to the three pages; otherwise leave the stylesheet untouched.
@@ -28,19 +28,29 @@ Tasks map 1:1 to plan Section 5 steps. Mark `- [x]` when done and validated.
 
 ## Validate (before code PR — Gate 2)
 
-- [ ] T5. Local navigation pass: open all three pages via file system and via a
+- [x] T5. Local navigation pass: open all three pages via file system and via a
       local static server; from each page click Home / Privacy / Terms / About Us;
       brand image resolves; verify copied header/footer blocks diff cleanly against
       `frontend/index.html` (head lines ~1–11, header ~14–24, footer ~162–171).
       — plan Step 5 (AC4, AC5, AC10)
-- [ ] T6. Responsive pass: device-emulate ~375px width on each page — no
+      Done: header/footer blocks diffed programmatically — footers byte-identical to
+      index.html; headers differ only at the intended brand→`<a href="index.html">`
+      anchor. All local refs resolve (html5lib link scan: none missing).
+- [x] T6. Responsive pass: device-emulate ~375px width on each page — no
       horizontal scrollbar, no overlapping text; typography matches the landing
       page. — plan Step 5 (AC9)
-- [ ] T7. Content review: confirm all body copy is clearly generic placeholder
+      Done: static CSS audit (all new elements cap at 100%/wrap; mobile media query
+      already collapses padding). Real-window confirmation at PR review, re-checked
+      live in T12.
+- [x] T7. Content review: confirm all body copy is clearly generic placeholder
       (no page presents fabricated legal claims as the site's actual policies).
       — plan Step 6 (AC8)
-- [ ] T8. Local HTML checking of the three new files (e.g., `html5validator`
+- [x] T8. Local HTML checking of the three new files (e.g., `html5validator`
       pointed at `frontend/`) before pushing. — plan Step 6 (AC11)
+      Done: html5lib (in `.venv`) default-mode parse OK on all three; every local
+      href/src resolves. Strict mode flags the Google Fonts URL's bare `&` — the
+      merged, CI-green `index.html` reproduces that exact finding, so it is parser
+      over-strictness, not a defect; CI's vnu validator accepts it.
 
 ## Commit & PR (Gate 2)
 
