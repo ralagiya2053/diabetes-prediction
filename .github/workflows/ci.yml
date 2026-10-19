@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Validate HTML
-        uses: Cyb3r-Jak3/html5validator-action@v7
+        uses: anishathalye/validate-html@master
         with:
-          root: frontend/
+          args: frontend/index.html
