@@ -19,63 +19,60 @@ Ask the user for anything missing:
 
 Do NOT invent requirements. If something is ambiguous, list it under Open Questions.
 
-## Spec template (write exactly this structure)
+## Spec template — write the spec file using exactly this structure
 
-```markdown
-# Spec <NNN> — <Feature Name>
+    # Spec <NNN> — <Feature Name>
 
-**Status:** Draft
-**Feature ID:** F<N>
-**Branch:** feat/<NNN>-<slug>
-**Author:** <git user>
-**Created:** <YYYY-MM-DD>
+    **Status:** Draft
+    **Feature ID:** F<N>
+    **Branch:** feat/<NNN>-<slug>
+    **Author:** <git user>
+    **Created:** <YYYY-MM-DD>
 
-## 1. Problem Statement
-Why does this feature exist? What gap does it close? 2–4 sentences.
+    ## 1. Problem Statement
+    Why does this feature exist? What gap does it close? 2–4 sentences.
 
-## 2. Scope
-**In scope:**
-- bullet list
+    ## 2. Scope
+    **In scope:**
+    - bullet list
 
-**Out of scope:**
-- bullet list
+    **Out of scope:**
+    - bullet list
 
-## 3. User-Facing Behavior
-Describe what the user sees / experiences. Before vs after if helpful.
-No implementation details.
+    ## 3. User-Facing Behavior
+    Describe what the user sees / experiences. Before vs after if helpful.
+    No implementation details.
 
-## 4. Acceptance Criteria
-Numbered, testable, atomic. Each one must be verifiable by a human or a test.
-1. ...
-2. ...
+    ## 4. Acceptance Criteria
+    Numbered, testable, atomic. Each one must be verifiable by a human or a test.
+    1. ...
+    2. ...
 
-## 5. Non-Goals
-Explicitly excluded from this feature (even if related).
+    ## 5. Non-Goals
+    Explicitly excluded from this feature (even if related).
 
-## 6. Dependencies
-- Other features (e.g., F2 depends on F1)
-- External services (AWS, Bedrock, Figma, etc.)
-- Files or modules this feature will touch
+    ## 6. Dependencies
+    - Other features (e.g., F2 depends on F1)
+    - External services (AWS, Bedrock, Figma, etc.)
+    - Files or modules this feature will touch
 
-## 7. Risks & Unknowns
-Anything that could block or change the design.
+    ## 7. Risks & Unknowns
+    Anything that could block or change the design.
 
-## 8. Open Questions
-Must be resolved before plan.md is written. If none, write "None."
+    ## 8. Open Questions
+    Must be resolved before plan.md is written. If none, write "None."
 
-## 9. References
-- Figma / docs / prior art links
+    ## 9. References
+    - Figma / docs / prior art links
 
 ## Rules
-- Keep the spec user- and behavior-focused. No code, no file paths, no implementation.
-- Acceptance criteria must be testable. Reject vague wording ("looks nice").
+- Keep the spec **user- and behavior-focused**. No code, no file paths, no implementation.
+- Acceptance criteria must be **testable**. Reject vague wording ("looks nice").
 - Respect the "Frozen — Do Not Modify" list in CLAUDE.md. If the feature seems to require touching frozen files, flag it under Open Questions — do not plan around it silently.
 - Reference the SDD step in any commit message you suggest (this skill ends at Step 2).
 
 ## After writing
-
-- Print the file path.
-- Print a short summary (3–5 lines) of what the spec covers.
-- Ask the user to review and approve before proceeding to Step 3 (Plan).
-- Stop. Do not create plan.md. Do not commit. Do not run /github-commit.
-- The user will trigger the next step.
+1. Print the file path.
+2. Print a short summary (3–5 lines) of what the spec covers.
+3. Ask the user to review and approve before proceeding to Step 3 (Plan).
+4. **Stop.** Do not create plan.md. Do not commit. Do not run /github-commit. The user will trigger the next step.
