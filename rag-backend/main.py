@@ -54,7 +54,11 @@ def ask(payload: AskRequest):
             sources=[],
         )
 
-    answer = _generate(payload.question, chunks)
+    try:
+        answer = _generate(payload.question, chunks)
+    except Exception as err:  # generation/infra failure -> 5xx JSON, not a crash page
+        raise HTTPException(status_code=500, detail=f"generation failed: {err}")
+
     sources = list(dict.fromkeys(c["source"] for c in chunks))
     return AskResponse(answer=answer, sources=sources)
 

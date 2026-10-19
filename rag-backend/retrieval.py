@@ -74,7 +74,8 @@ def query_chunks(question: str, k: int = 3) -> List[Dict[str, str]]:
     )
 
     chunks: List[Dict[str, str]] = []
-    for match in resp.get("matches", []):
+    # QueryVectors response returns matches under "vectors"
+    for match in resp.get("vectors", []):
         meta = match.get("metadata", {})
         text = meta.get("text")
         source = meta.get("source")

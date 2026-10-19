@@ -16,7 +16,7 @@ Additive to the frozen prediction service — see `specs/03-rag-backend/plan.md`
 | `VECTOR_INDEX_NAME` | yes | vector index inside the bucket |
 | `EMBED_MODEL_ID` | no (default `amazon.titan-embed-text-v2:0`) | Bedrock embedding model |
 | `EMBED_DIM` | no (default `1024`) | Titan V2 output dimension |
-| `LLM_MODEL_ID` | no (default `anthropic.claude-haiku-5-5`) | Bedrock LLM |
+| `LLM_MODEL_ID` | no (code default `us.anthropic.claude-haiku-5-5`; deployed instance currently overrides to `us.anthropic.claude-haiku-4-5-20251001-v1:0` until Haiku 5.5 model access is granted) | Bedrock LLM (inference-profile ID) |
 | `AWS_REGION` | no (default `us-east-1`) | AWS region (guardrail: us-east-1 only) |
 | `FRONTEND_ORIGIN` | no (default `https://ralagiya2053.github.io`) | CORS allow-origin |
 
@@ -36,6 +36,14 @@ origin restriction only matters for the deployed URL.)
 1. **Bedrock model access:** in the Bedrock console (us-east-1), confirm
    *Amazon Titan Text Embeddings V2* and *Claude Haiku 5.5* are enabled for the
    account (Request model access first if not).
+   Gotchas learned at deploy time:
+   - Newer Anthropic models are not invocable directly (on-demand throughput
+     unsupported) — use the **system-defined cross-region inference profile**
+     ID (`us.<model-id>`, listed by `aws bedrock list-inference-profiles`).
+   - IAM must allow `bedrock:InvokeModel` on the profile ARN
+     (`arn:aws:bedrock:<region>:<account>:inference-profile/<id>`) AND on the
+     underlying foundation-model ARNs in **every routing region** the profile
+     can fan out to (for `us.` profiles: us-east-1, us-east-2, us-west-2).
 2. **S3 Vectors:** create vector bucket + index — index dimension **1024**,
    distance metric **COSINE** (Titan V2 is normalized).
 3. **ECR:** create repo `rag-backend` (us-east-1), then:
@@ -51,19 +59,29 @@ origin restriction only matters for the deployed URL.)
    function `rag-backend` from ECR digest `sha256:38e3b30b…0afae315`.
 5. **IAM execution role:** `rag-backend-lambda-role` — inline policy
    `rag-backend-inline` covering CloudWatch logs, ECR pull, `bedrock:InvokeModel`
-   / +ResponseStream scoped to the two model IDs, and
-   `s3vectors:QueryVectors` / `s3vectors:PutVectors` on
-   `arn:aws:s3vectors:us-east-1:974443623644:bucket/diabetes-rag-vectors`.
+   / +ResponseStream scoped to the two model IDs, and on the vector bucket AND
+   index ARNs (`…/bucket/<bucket>` and `…/bucket/<bucket>/index/<index>`):
+   `s3vectors:QueryVectors`, `s3vectors:GetVectors` (required with
+   `returnMetadata=true`), `s3vectors:PutVectors`, `s3vectors:ListVectors`.
+   Lambda caches its role credentials per sandbox — after an IAM policy
+   change, force a refresh with a no-op
+   `update-function-configuration --environment` call.
    (Account-managed policies like `AWSLambdaBasicExecutionRole` could not be
    referenced in this account at deploy time, so everything is inline.)
 6. **Function URL:** enable with auth type `NONE`; leave the URL's CORS
    setting **DISABLED** — CORS is enforced by the app's middleware and both
    layers enabled would emit duplicate headers and break preflight.
-   CLI gotcha: `create-function-url-config` does not add the public invoke
-   permission the console auto-adds — run:
+   CLI gotcha: `create-function-url-config` adds no public invoke permission
+   (the console auto-adds them) — **both** of these statements are required,
+   each alone still 403s anonymous callers:
        aws lambda add-permission --function-name rag-backend \
-         --statement-id FunctionURLAllowPublicUse --action lambda:InvokeFunctionUrl \
-         --principal "*" --function-url-auth-type NONE
+         --statement-id FunctionURLAllowPublicAccess \
+         --action lambda:InvokeFunctionUrl --principal "*" \
+         --function-url-auth-type NONE
+       aws lambda add-permission --function-name rag-backend \
+         --statement-id FunctionURLInvokeAllowPublicAccess \
+         --action lambda:InvokeFunction --principal "*" \
+         --invoked-via-function-url
    Live URL: `https://kvjinvbq37vl2k5gh45xcaj2e40hpldn.lambda-url.us-east-1.on.aws/`
 7. **Set env vars** on the Lambda for `VECTOR_BUCKET_NAME`, `VECTOR_INDEX_NAME`.
 
