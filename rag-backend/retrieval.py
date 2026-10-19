@@ -10,6 +10,7 @@ hardcoded resource names:
   AWS_REGION           defaults to us-east-1 (repo guardrail)
 """
 
+import json
 import os
 from functools import lru_cache
 from typing import Dict, List
@@ -51,9 +52,9 @@ def embed_question(question: str) -> List[float]:
     """Embed a single question string with Titan Text Embeddings V2."""
     resp = _bedrock_runtime().invoke_model(
         modelId=embed_model_id(),
-        body={"inputText": question},
+        body=json.dumps({"inputText": question}).encode("utf-8"),
     )
-    return resp["embedding"]
+    return json.loads(resp["body"].read())["embedding"]
 
 
 def query_chunks(question: str, k: int = 3) -> List[Dict[str, str]]:

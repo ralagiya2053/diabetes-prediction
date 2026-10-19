@@ -18,7 +18,7 @@ Tasks map 1:1 to plan Section 5 steps. Mark `- [x]` when done and validated.
       (`amazon.titan-embed-text-v2:0`) embed + S3 Vectors top-3 query
       returning chunks with source-document metadata. — plan Step 2
       (AC1, AC7, AC12)
-- [x] T3. Write `rag-backend/generation.py`: Claude 3 Haiku via Bedrock
+- [x] T3. Write `rag-backend/generation.py`: Claude Haiku 5.5 via Bedrock
       Converse with grounding system prompt; empty/irrelevant retrieval →
       explicit insufficient-context answer, empty sources, no LLM call.
       — plan Step 3 (AC2, AC3)

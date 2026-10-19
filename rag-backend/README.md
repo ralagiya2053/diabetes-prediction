@@ -2,7 +2,7 @@
 
 Question-answering service: `POST /ask` embeds the question with Amazon Titan
 Text Embeddings V2, retrieves top-3 chunks from an S3 Vectors index, and
-generates a grounded answer with Claude 3 Haiku (Bedrock Converse). Empty or
+generates a grounded answer with Claude Haiku 5.5 (Bedrock Converse). Empty or
 irrelevant retrieval returns an explicit insufficient-context answer without
 calling the LLM. `GET /health` reports service readiness.
 
@@ -16,7 +16,7 @@ Additive to the frozen prediction service — see `specs/03-rag-backend/plan.md`
 | `VECTOR_INDEX_NAME` | yes | vector index inside the bucket |
 | `EMBED_MODEL_ID` | no (default `amazon.titan-embed-text-v2:0`) | Bedrock embedding model |
 | `EMBED_DIM` | no (default `1024`) | Titan V2 output dimension |
-| `LLM_MODEL_ID` | no (default `anthropic.claude-3-haiku-20240307-v1:0`) | Bedrock LLM |
+| `LLM_MODEL_ID` | no (default `anthropic.claude-haiku-5-5`) | Bedrock LLM |
 | `AWS_REGION` | no (default `us-east-1`) | AWS region (guardrail: us-east-1 only) |
 | `FRONTEND_ORIGIN` | no (default `https://ralagiya2053.github.io`) | CORS allow-origin |
 
@@ -34,7 +34,7 @@ origin restriction only matters for the deployed URL.)
 ## Deployment (console, no IaC — same pattern as the prediction service)
 
 1. **Bedrock model access:** in the Bedrock console (us-east-1), confirm
-   *Amazon Titan Text Embeddings V2* and *Claude 3 Haiku* are enabled for the
+   *Amazon Titan Text Embeddings V2* and *Claude Haiku 5.5* are enabled for the
    account (Request model access first if not).
 2. **S3 Vectors:** create vector bucket + index — index dimension **1024**,
    distance metric **COSINE** (Titan V2 is normalized).
@@ -70,7 +70,7 @@ corpus size. `ingest.py` does not delete keys from removed documents — use
       "Action": ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"],
       "Resource": [
         "arn:aws:bedrock:*:<account>:foundation-model/amazon.titan-embed-text-v2:0",
-        "arn:aws:bedrock:*:<account>:foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+        "arn:aws:bedrock:*:<account>:foundation-model/anthropic.claude-haiku-5-5"
       ]
     },
     {

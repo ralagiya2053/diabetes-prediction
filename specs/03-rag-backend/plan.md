@@ -14,8 +14,8 @@ mirroring the frozen prediction service's stack: Python 3.11 + FastAPI in a
 Docker image with AWS Lambda Web Adapter, pushed to a new ECR repository and
 attached to a new Lambda Function URL via console (no SAM/CDK). Retrieval uses
 Amazon Titan Text Embeddings V2 (`amazon.titan-embed-text-v2:0`, 1024-dim)
-against an S3 Vectors index; generation uses Claude 3 Haiku
-(`anthropic.claude-3-haiku-20240307-v1:0`) via Bedrock Converse with a
+against an S3 Vectors index; generation uses Claude Haiku 5.5
+(`anthropic.claude-haiku-5-5`) via Bedrock Converse with a
 strict ground-in-context prompt that refuses to answer when retrieval returns
 nothing relevant (explicit insufficient-context response instead). A small
 markdown corpus (3–5 files: policy, compliance, charges) lives in
@@ -31,7 +31,7 @@ All new; nothing in frozen directories or `frontend/`:
   / AskResponse (`answer`, `sources` list)
 - `rag-backend/retrieval.py` — embed question with Titan Embeddings V2
   (Bedrock Runtime), query S3 Vectors index, return top-k chunks + source docs
-- `rag-backend/generation.py` — Bedrock Converse call to Claude 3 Haiku with
+- `rag-backend/generation.py` — Bedrock Converse call to Claude Haiku 5.5 with
   grounding system prompt and insufficient-context handling
 - `rag-backend/ingest.py` — CLI script: chunk `documents/*.md` by section
   headings, embed chunks in batches, upsert into the S3 Vectors index with
@@ -69,7 +69,7 @@ Lambda Function URL (auth NONE) ── Lambda Web Adapter ── FastAPI on :808
         ├─ Titan Embeddings V2 ── bedrock-runtime invoke ──▶ vector (1×1024)
         ├─ S3 Vectors query top-k (k≈3) ──▶ chunks + metadata {source}
         │      └─ empty/irrelevant? ──▶ 200 {"answer": "insufficient context...", "sources": []}
-        ├─ Claude 3 Haiku (Bedrock Converse)
+        ├─ Claude Haiku 5.5 (Bedrock Converse)
         │      system: answer ONLY from supplied context; cite documents
         │      user: context chunks + question
         └─ 200 {"answer": "...", "sources": ["doc1.md", ...]}
@@ -91,7 +91,7 @@ duplicate Access-Control-Allow-Origin headers and break preflight.
    `uvicorn` locally. — satisfies (setup for AC1, AC6, AC10)
 2. Write `retrieval.py`: Titan V2 embed + S3 Vectors top-k query with source
    metadata. — satisfies AC1, AC7, AC12 structure
-3. Write `generation.py`: Claude 3 Haiku via Converse, grounded system
+3. Write `generation.py`: Claude Haiku 5.5 via Converse, grounded system
    prompt; when retrieved chunks are empty/below relevance bar, return the
    explicit insufficient-context answer with empty sources and skip the LLM
    call. — satisfies AC2, AC3

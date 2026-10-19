@@ -14,6 +14,7 @@ Usage (env required):
   VECTOR_BUCKET_NAME=... VECTOR_INDEX_NAME=... .venv/Scripts/python.exe rag-backend/ingest.py
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -45,7 +46,7 @@ def main() -> int:
         return 1
 
     embed = boto3.client("bedrock-runtime", region_name=AWS_REGION)
-    vectors = boto3.service_client("s3vectors", region_name=AWS_REGION)
+    vectors = boto3.client("s3vectors", region_name=AWS_REGION)
 
     total = 0
     for doc in sorted(DOCS_DIR.glob("*.md")):
@@ -54,12 +55,13 @@ def main() -> int:
         for i, chunk in enumerate(chunks):
             resp = embed.invoke_model(
                 modelId=EMBED_MODEL_ID,
-                body={"inputText": chunk},
+                body=json.dumps({"inputText": chunk}).encode("utf-8"),
             )
+            embedding = json.loads(resp["body"].read())["embedding"]
             batch.append(
                 {
                     "key": f"{doc.name}::{i}",
-                    "data": {"float32": resp["embedding"]},
+                    "data": {"float32": embedding},
                     "metadata": {"source": doc.name, "text": chunk},
                 }
             )

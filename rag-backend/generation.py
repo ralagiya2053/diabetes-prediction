@@ -1,8 +1,8 @@
-"""Grounded answer generation with a Bedrock LLM (Claude 3 Haiku).
+"""Grounded answer generation with a Bedrock LLM (Claude Haiku 5.5).
 
 Config from environment variables:
 
-  LLM_MODEL_ID   Bedrock LLM (default: anthropic.claude-3-haiku-20240307-v1:0)
+  LLM_MODEL_ID   Bedrock LLM (default: anthropic.claude-haiku-5-5)
   AWS_REGION     defaults to us-east-1 (repo guardrail)
 """
 
@@ -11,7 +11,7 @@ from functools import lru_cache
 
 import boto3
 
-DEFAULT_LLM_MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"
+DEFAULT_LLM_MODEL_ID = "anthropic.claude-haiku-5-5"
 
 # Shown verbatim when retrieval finds nothing relevant (no LLM call).
 INSUFFICIENT_CONTEXT_ANSWER = (
@@ -67,7 +67,6 @@ def generate_answer(question: str, chunks: list[dict[str, str]]) -> str:
         ],
         inferenceConfig={
             "maxTokens": 512,
-            "temperature": 0.0,
         },
     )
 
