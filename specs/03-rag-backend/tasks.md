@@ -10,34 +10,34 @@ Tasks map 1:1 to plan Section 5 steps. Mark `- [x]` when done and validated.
 
 ## Build
 
-- [ ] T1. Scaffold `rag-backend/`: `main.py` (FastAPI + `/health`), `schema.py`
+- [x] T1. Scaffold `rag-backend/`: `main.py` (FastAPI + `/health`), `schema.py`
       (AskRequest/AskResponse), `requirements.txt`; install runtime + test
       deps via `.venv/Scripts/python.exe -m pip` ONLY (never global); smoke-run
       `uvicorn` locally. — plan Step 1 (sets up AC1, AC6, AC10)
-- [ ] T2. Write `rag-backend/retrieval.py`: Titan Embeddings V2
+- [x] T2. Write `rag-backend/retrieval.py`: Titan Embeddings V2
       (`amazon.titan-embed-text-v2:0`) embed + S3 Vectors top-3 query
       returning chunks with source-document metadata. — plan Step 2
       (AC1, AC7, AC12)
-- [ ] T3. Write `rag-backend/generation.py`: Claude 3 Haiku via Bedrock
+- [x] T3. Write `rag-backend/generation.py`: Claude 3 Haiku via Bedrock
       Converse with grounding system prompt; empty/irrelevant retrieval →
       explicit insufficient-context answer, empty sources, no LLM call.
       — plan Step 3 (AC2, AC3)
-- [ ] T4. Wire `POST /ask` in `main.py`: validation (empty/missing/over-length
+- [x] T4. Wire `POST /ask` in `main.py`: validation (empty/missing/over-length
       → 4xx JSON error), CORS middleware restricted to
       `https://ralagiya2053.github.io` only (Function URL CORS stays
      DISABLED). — plan Step 4 (AC1, AC3-4xx, AC5)
-- [ ] T5. Write corpus and ingestion: `rag-backend/documents/{charges.md,
+- [x] T5. Write corpus and ingestion: `rag-backend/documents/{charges.md,
       compliance.md, policy.md}` (dummy but sensible sample text) +
       `rag-backend/ingest.py` (section-chunking, batched embed, idempotent
       S3 Vectors upsert); run once to fill the index, re-run to verify
       determinism. — plan Step 5 (AC11)
-- [ ] T6. Add `rag-backend/Dockerfile` mirroring the frozen service's Lambda
+- [x] T6. Add `rag-backend/Dockerfile` mirroring the frozen service's Lambda
       Web Adapter pattern (port 8080, adapted paths only). — plan Step 6
       (AC1 deploy path, AC9 timeout config)
-- [ ] T7. Write `tests/test_ask.py` (in `.venv`, mocks for Bedrock/S3
+- [x] T7. Write `tests/test_ask.py` (in `.venv`, mocks for Bedrock/S3
       Vectors): happy path, no-relevant-chunks path, three malformed
       variants, `/health`; run locally green. — plan Step 7 (AC3, AC4, AC10)
-- [ ] T8. Write `rag-backend/README.md` runbook: console deploy steps, pinned
+- [x] T8. Write `rag-backend/README.md` runbook: console deploy steps, pinned
       vector bucket/index + model IDs, env vars, IAM policy JSON for the
       Lambda role, ingest instructions. — plan Step 8 supporting material
 
